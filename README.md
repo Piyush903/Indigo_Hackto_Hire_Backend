@@ -55,8 +55,7 @@ When the flight status is updated, customers are notified again based on their p
 3. Install the required dependencies:
    ```sh
    pip install -r requirements.txt
-```
 4.Run the application:
-```
-flask run
-```
+  ```sh
+  flask run
+
