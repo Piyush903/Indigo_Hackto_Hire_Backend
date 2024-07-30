@@ -66,17 +66,3 @@ erDiagram
     TICKETS ||--o{ FLIGHTS: "flight_id"
     TICKETS ||--o{ CUSTOMERS: "customer_id"
     TICKETS ||--o{ NOTIFICATIONS: "notification_id"
-
-flowchart TD
-    A[Customer books a ticket] --> B{Check preferred notification method}
-    B -->|Email| C[Send email notification]
-    B -->|SMS| D[Send SMS notification]
-    C --> E[Store notification in the database]
-    D --> E
-    E --> F[Ticket created and stored in the database]
-    F --> G[Flight status updated]
-    G --> H{Check all tickets for the flight}
-    H -->|Email| I[Send email notification to all customers]
-    H -->|SMS| J[Send SMS notification to all customers]
-    I --> K[Update notification status in the database]
-    J --> K
