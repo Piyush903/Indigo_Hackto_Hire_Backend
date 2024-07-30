@@ -37,6 +37,75 @@ When the flight status is updated, customers are notified again based on their p
 - `POST /airports`: Add a new airport.
 - `GET /tickets`: Retrieve all tickets.
 - `POST /tickets`: Create a new ticket.
+# Flight Status Notification System
+
+This project is a Flask application designed to provide real-time flight status updates and notifications to passengers. Notifications are sent via email or SMS based on the user's preferred notification method.
+
+## System Design
+
+### Database Schema
+
+The system consists of the following tables:
+
+- **airports**: Stores information about airports.
+- **flights**: Stores information about flights.
+- **customers**: Stores information about customers.
+- **notifications**: Stores information about notifications sent to customers.
+- **tickets**: Stores information about tickets booked by customers.
+
+```mermaid
+erDiagram
+    AIRPORTS {
+        int airport_id PK
+        string iata_code
+        string name
+        string city
+        string country
+        string timezone
+    }
+    FLIGHTS {
+        int flight_id PK
+        date flight_date
+        string flight_status
+        int departure_airport_id FK
+        int arrival_airport_id FK
+        datetime departure_time
+        datetime arrival_time
+        string airline
+        int delay
+    }
+    CUSTOMERS {
+        int customer_id PK
+        string name
+        string email
+        string phone
+        string preferred_notification_method
+    }
+    NOTIFICATIONS {
+        int notification_id PK
+        int flight_id FK
+        int customer_id FK
+        string notification_type
+        string status
+        datetime sent_at
+        string recipient
+    }
+    TICKETS {
+        int ticket_id PK
+        int flight_id FK
+        int customer_id FK
+        int notification_id FK
+        datetime created_at
+    }
+
+    FLIGHTS ||--o{ AIRPORTS: "departure_airport_id"
+    FLIGHTS ||--o{ AIRPORTS: "arrival_airport_id"
+    NOTIFICATIONS ||--o{ FLIGHTS: "flight_id"
+    NOTIFICATIONS ||--o{ CUSTOMERS: "customer_id"
+    TICKETS ||--o{ FLIGHTS: "flight_id"
+    TICKETS ||--o{ CUSTOMERS: "customer_id"
+    TICKETS ||--o{ NOTIFICATIONS: "notification_id"
+
 
 ## Dependencies
 
